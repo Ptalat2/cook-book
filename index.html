@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+  <link rel="stylesheet" href="cook.css">
+  <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
+  <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+  <title>cook-book</title>
+  <link rel="icon" href="favicon.ico">
+  <link rel="icon" href="C:\Users\USER\Downloads\favicon.ico">
+
+</head>
+
+<body>
+  <div id="myNav" class="overlay">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <div class="overlay-content">
+      <a class="a" id="clickHome">Home</a>
+      <a class="a" id="clickSearch">Search</a>
+      <a class="a" id="clickI">Ingredients</a>
+    </div>
+  </div>
+  <div id="swift" style="font-size:20px;cursor:pointer" onclick="openNav()">&#9776;</div>
+
+  <script>
+    function openNav() {
+      document.getElementById("myNav").style.width = "20%";
+      document.getElementById("swift").innerHTML = "&#x2600";
+    }
+
+    function closeNav() {
+      document.getElementById("myNav").style.width = "0%";
+      document.getElementById("swift").innerHTML = "&#x2630";
+    }
+  </script>
+
+  <main>
+
+    <h1 id="title">Quick COOK</h1>
+
+    <section class="search center Home">
+
+
+
+      <aside class="mdc-snackbar" style="align-self: center">
+        <div class="mdc-snackbar__surface" role="status" aria-relevant="additions">
+          <div class="mdc-snackbar__label" aria-atomic="false">
+            Can't send photo. Retry in 5 seconds.
+          </div>
+          <div class="mdc-snackbar__actions" aria-atomic="true">
+            <button type="button" class="mdc-button mdc-snackbar__action">
+              <div class="mdc-button__ripple"></div>
+              <span class="mdc-button__label">Retry</span>
+            </button>
+          </div>
+        </div>
+      </aside>
+
+
+      <form>
+        <button id="buton" type="button"><i class="material-icons" id="getSearch" type="click">search</i></button>
+        <label id="category">Categories:</label>
+        <select id="cs">
+        </select><br>
+
+        <label id="Area">Area:</label>
+        <select id="cA">
+        </select><br>
+      </form>
+
+      <div class="slideshow-container">
+        <div class="mySlides fade">
+          <div class="numbertext"></div>
+          <img src="" style="width:40%" id="food-image">
+          <div id="left-side">
+            <h2 id="food-title"></h2>
+
+            <div id="div-ingredients">
+              <h4>Ingredients:</h4>
+              <ul id="bullet-list">
+              </ul>
+            </div>
+
+          </div>
+
+          <div id="right-side">
+            <h3>Recipe</h3>
+            <p id="recipe"></p>
+            <h4 id="video-title">Video Recipe:</h4>
+            <iframe id=iframe src="" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; 
+            clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen id="video"></iframe>
+          </div>
+
+
+
+
+          <div class="text"></div>
+        </div>
+
+
+        <a class="prev">❮</a>
+        <a class="next">❯</a>
+
+
+      </div>
+
+      <br>
+
+
+
+
+
+    </section>
+
+
+
+    <section id="Search">
+
+      <button id="button" type="button">🍪 GET MEAL 🥙</button>
+
+      <div id="search-title-image">
+        <h3></h3>
+        <img>
+      </div>
+
+      <div id="meal-des">
+        <h3></h3>
+        <p></p>
+      </div>
+      </div>
+
+      <div id="meal-middle">
+        <div id="meal-extras">
+          <h5 id="label-C"></h5>
+          <h5 id="label-A"></h5>
+          <h5 id="label-T"></h5>
+        </div>
+
+        <div id="ing">
+          <h3></h3>
+          <div id="The-ing">
+            <ul id="uL">
+            </ul>
+          </div>
+        </div>
+
+
+
+        <div id="videoFrame">
+          <iframe id=iframes src="" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; 
+        clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen id="video"></iframe>
+
+        </div>
+
+        <script>
+          document.querySelector("#button").addEventListener("click", (e) => {
+            let label = document.querySelector("#search-title-image").querySelector("h3");
+            let imgg = document.querySelector("#search-title-image").querySelector("img");
+            let lC = document.querySelector("#label-C");
+            let lA = document.querySelector("#label-A");
+            let lT = document.querySelector("#label-T");
+            let ing = document.querySelector("#ing").querySelector("h3");
+            let uL = document.querySelector("#uL");
+            let mealP = document.querySelector("#meal-des").querySelector("p");
+            let frame = document.querySelector("#iframes");
+            let mealL = document.querySelector("#meal-des").querySelector("h3");
+            let w = 'https://www.themealdb.com/api/json/v1/1/random.php';
+            fetch(w).then(response => {
+              return response.json();
+            }).then(json => {
+              console.log(json);
+              let obj = json["meals"][0];
+              console.log(obj);
+              imgg.src = obj.strMealThumb;
+              imgg.style.display = "block";
+              mealL.innerText = "Recipe: "
+              label.innerText = obj.strMeal;
+              lC.innerText = `Categories: ${obj.strCategory}`;
+              lA.innerText = `Area: ${obj.strArea}`;
+              lT.innerText = `Tags: ${obj.strTags}`;
+              ing.innerText = "Ingredients: ";
+              let src = obj["strYoutube"];
+              src = src.slice(-11);
+              frame.src = `https://www.youtube.com/embed/${src}`;
+              for (var i = 0; i < 20; i++) {
+                if (obj[`strIngredient${i}`]) {
+                  let li = document.createElement("li");
+                  li.innerText = `${obj[`strIngredient${i}`]}- ${obj[`strMeasure${i}`]}`;
+                  uL.appendChild(li);
+                }
+              }
+              mealP.innerText = obj.strInstructions;
+
+
+
+            })
+
+
+          });
+        </script>
+
+    </section>
+
+
+
+
+
+    <section id="AllIngredients">
+
+      <h2 id="allIngredients"><u>Ingredients</u></h2>
+
+      <div class="div-content">
+        <table class="table">
+          <tr id="label">
+            <th>ID</th>
+            <th>NAME</th>
+            <th>DESCRIPTION</th>
+          </tr>
+
+
+          <tr id="row">
+            <td> <input id="ID" type="text" readonly><br></td>
+            <td> <input id="NAME" type="text" readonly><br></td>
+            <td> <input id="DESCRIPTION" type="text" readonly><br></td>
+          </tr>
+
+        </table>
+      </div>
+
+
+      <script>
+        // idIngredient strDescription strIngredient
+        let table = document.querySelector(".table");
+        let clone = document.querySelector("#row");
+        let www = "https://www.themealdb.com/api/json/v1/1/list.php?i=list";
+        fetch(www).then(response => {
+          return response.json();
+        }).then(json => {
+          let obj = json.meals;
+          console.log(obj);
+          console.log(obj[45]);
+          for (let i = 0; i < obj.length; i++) {
+
+            let node = clone.cloneNode(true);
+            node.querySelector("#ID").value = obj[i]["idIngredient"];
+            node.querySelector("#NAME").value = obj[i]["strIngredient"];
+            node.querySelector("#DESCRIPTION").value = obj[i]["strDescription"];
+            table.appendChild(node);
+          }
+          document.querySelector("#row").remove();
+          let rows = document.querySelectorAll("#ID");
+          let name = document.querySelectorAll("#NAME");
+          let des = document.querySelectorAll("#DESCRIPTION");
+          let all = document.querySelectorAll("#DESCRIPTION");
+          let synth = window.speechSynthesis;
+          for (var i = 0; i < all.length; i++) {
+            all[i].addEventListener("click", (e) => {
+              let utterance = new SpeechSynthesisUtterance(e.srcElement.value);
+              utterance.voice = synth.getVoices()[0];
+              speechSynthesis.speak(utterance);
+            })
+          }
+        });
+      </script>
+    </section>
+
+  </main>
+
+
+  <script>
+    document.querySelector("#clickHome").addEventListener("click", (e) => {
+      document.querySelector("#Search").style.display = "none";
+      document.querySelector("#AllIngredients").style.display = "none";
+      document.querySelector(".Home").style.display = "block";
+    });
+
+    document.querySelector("#clickSearch").addEventListener("click", (e) => {
+      document.querySelector("#Search").style.display = "block";
+      document.querySelector("#AllIngredients").style.display = "none";
+      document.querySelector(".Home").style.display = "none";
+    });
+
+    document.querySelector("#clickI").addEventListener("click", (e) => {
+      document.querySelector("#Search").style.display = "none";
+      document.querySelector("#AllIngredients").style.display = "block";
+      document.querySelector(".Home").style.display = "none";
+    });
+  </script>
+
+
+
+
+  <script>
+    let categories = [];
+    let Area = [];
+    let Ingredient = [];
+
+    function push(url, item) {
+      fetch(url).then(response => {
+        return response.json();
+      }).then(json => {
+        let object = [];
+        let obj = json["meals"];
+        for (var i = 0; i < obj.length; i++) {
+          object.push(obj[i]);
+        }
+        add(object, item);
+      });
+
+
+    }
+
+
+    function add(obj, item) {
+
+      switch (item) {
+        case "category":
+          for (var i = 0; i < obj.length; i++) {
+            let opt = document.createElement("option");
+            opt.innerText = obj[i]["strCategory"];
+            opt.value = obj[i]["strCategory"];
+
+            document.querySelector("#cs").appendChild(opt);
+          }
+          break;
+
+        case "Area":
+
+          for (var i = 0; i < obj.length; i++) {
+            let opt = document.createElement("option");
+            opt.innerText = obj[i]["strArea"];
+            opt.value = obj[i]["strArea"];
+            document.querySelector("#cA").appendChild(opt);
+          }
+          break;
+      }
+
+    }
+
+    let url = "https://www.themealdb.com/api/json/v1/1/list.php?c=list";
+    push(url, "category");
+    // add(categories,"category");
+
+    let urlArea = "https://www.themealdb.com/api/json/v1/1/list.php?a=list";
+    push(urlArea, "Area");
+    //  add(Area,"Area");
+
+    // let URLIngredients ="https://www.themealdb.com/api/json/v1/1/list.php?i=list";
+    // push(URLIngredients);
+
+    document.querySelector("#getSearch").addEventListener("click", (e) => {
+      let category = document.querySelector("#cs");
+      let AREA = document.querySelector("#cA");
+
+      let url = `https://www.themealdb.com/api/json/v1/1/filter.php?c=${category.value}`;
+      fetch(url).then(response => {
+        return response.json();
+      }).then(json => {
+        console.log(json);
+        let object = json["meals"]
+        let url2 = `https://www.themealdb.com/api/json/v1/1/filter.php?a=${AREA.value}`;
+        fetch(url2).then(response => {
+          return response.json();
+        }).then(json => {
+
+          let adj = json["meals"];
+          console.log(json);
+          let jsonArray = [];
+          object.forEach(meal1 => {
+            adj.forEach(meal2 => {
+              if (meal1["idMeal"] == meal2["idMeal"]) {
+                jsonArray.push(meal1);
+              }
+            })
+          })
+          if (jsonArray.length != 0) {
+            console.log(jsonArray);
+            let clone = document.querySelector(".mySlides");
+            let slides = document.querySelector(".slideshow-container");
+            let cloneS = document.querySelectorAll(".mySlides");
+            for (var i = 0; i < cloneS.length - 1; i++) {
+              cloneS[i].remove();
+            }
+            for (var i = 0; i < jsonArray.length - 1; i++) {
+              let node = clone.cloneNode(true);
+              slides.appendChild(node);
+            }
+
+
+
+            let slid = document.querySelectorAll(".mySlides");
+            let numbertext = document.querySelectorAll(".numbertext");
+            let images = document.querySelectorAll("#food-image");
+            let title = document.querySelectorAll("#food-title");
+            let list = document.querySelectorAll("#bullet-list");
+            let recipe = document.querySelectorAll("#recipe");
+            let idFrame = document.querySelectorAll("#iframe");
+            let videoT = document.querySelectorAll("#video-title");
+
+            slid[0].style.display = 'block';
+
+
+
+            for (var i = 0; i < jsonArray.length; i++) {
+              console.log[images[i]];
+              numbertext[i].innerText = `${i+1}/${jsonArray.length}`;
+              images[i].src = jsonArray[i]["strMealThumb"];
+              title[i].innerText = jsonArray[i]["strMeal"];
+              let frame = idFrame[i];
+              let r = recipe[i];
+              let vid = videoT[i];
+              let lis = list[i];
+              let sli = slid[i];
+              fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${jsonArray[i]["idMeal"]}`).then(
+                response => {
+                  return response.json();
+                }).then(json => {
+                console.log(json);
+                let obj = json["meals"][0];
+                if (obj["strYoutube"] != "") {
+                  let src = obj["strYoutube"];
+                  src = src.slice(-11);
+                  vid.style.display = "block";
+                  console.log(src);
+                  // https://www.youtube.com/embed/${meal.strYoutube.slice(-11)}"
+                  frame.src = `https://www.youtube.com/embed/${src}`;
+                }
+                r.innerText = obj["strInstructions"];
+                for (var i = 0; i < 20; i++) {
+                  if (obj[`strIngredient${i}`]) {
+                    if (i >= 20) {
+                      sli.style.overflow = "scroll";
+                    }
+                    let li = document.createElement("li");
+                    li.innerText = `${obj[`strIngredient${i}`]}- ${obj[`strMeasure${i}`]}`;
+                    console.log(list);
+                    lis.appendChild(li);
+                  }
+                }
+              });
+            }
+
+          } else {
+            const snackbar = new mdc.snackbar.MDCSnackbar(document.querySelector('.mdc-snackbar'));
+            let Val =
+              `Sorry An ${AREA.value} Dish Which Contains/IS ${category.value} Does Not Exist On Our Page Yet`;
+            console.log(Val);
+            snackbar.labelText = Val;
+            snackbar.open();
+          }
+        });
+
+
+      });
+
+
+      document.querySelector(".slideshow-container").style.display = 'block';
+
+
+    });
+  </script>
+
+
+  <script>
+    let slideIndex = 0;
+
+    document.querySelector(".prev").addEventListener("click", (e) => {
+      let slides = document.getElementsByClassName("mySlides");
+      --slideIndex;
+      if (slideIndex >= slides.length) {
+        slideIndex = 0
+      }
+      if (slideIndex < 0) {
+        slideIndex = slides.length - 1
+      }
+      for (i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";
+      }
+
+      slides[slideIndex].style.display = "block";
+
+    });
+
+    document.querySelector(".next").addEventListener("click", (e) => {
+      let slides = document.getElementsByClassName("mySlides");
+      ++slideIndex;
+      console.log("hey");
+      if (slideIndex >= slides.length) {
+        slideIndex = 0
+      }
+      if (slideIndex < 0) {
+        slideIndex = slides.length - 2
+      }
+      for (i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";
+      }
+
+      slides[slideIndex].style.display = "block";
+
+    });
+
+
+
+    function showSlides(n) {
+      let i;
+      let slides = document.getElementsByClassName("mySlides");
+      if (n > slides.length) {
+        slideIndex = 1
+      }
+      if (n < 1) {
+        slideIndex = slides.length
+      }
+      for (i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";
+      }
+
+      slides[slideIndex - 1].style.display = "block";
+
+    }
+  </script>
+
+</body>
+
+</html>
+
+<!-- <div id ="left-side">
+        <h2 id = "food-title"></h2>
+        <img id = "food-image">
+
+        <div id = "div-ingredients">
+
+        </div>
+    
+    </div>
+
+    <div id = "right-side">
+        <p id = "recipe"></p> 
+
+    </div>
+
+
+
+    <iframe id = iframe title="YouTube video player" 
+    frameborder="0" allow="accelerometer; autoplay; 
+    clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+    allowfullscreen id = "video"></iframe> -->
